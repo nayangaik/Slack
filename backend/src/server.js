@@ -2,18 +2,21 @@ import express from "express"
 import dotenv from "dotenv"
 import connectDB from "./config/db.js";
 import { serve } from "inngest/express";
+import { ClerkExpressWithAuth } from "@clerk/express";
+import { inngest, syncUser } from "./config/inngest.js";
 
 import { ENV } from "./config/env.js";
 
 dotenv.config();
 
+const functions = [syncUser];
 
 
 
 const app = express();
 
 app.use(express.json());
-app.use(clerkMiddleware());
+app.use(ClerkExpressWithAuth());
 
 app.use("/api/inngest", serve({ client: inngest, functions }));
 
