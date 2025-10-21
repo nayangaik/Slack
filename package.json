@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@sentry/profiling-node": "^10.21.0"
+  }
+}

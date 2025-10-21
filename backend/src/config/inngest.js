@@ -1,6 +1,7 @@
 import { Inngest } from "inngest";
 import connectDB  from "./db.js";
 import { User } from "../models/user.model.js"; // Import the User model
+import { upsertStreamUser, deleteStreamUser } from "./stream.js";
 
 
 
@@ -45,6 +46,8 @@ const deleteUserFromDB = inngest.createFunction(
     await deleteStreamUser(id.toString());
   }
 );
+
+
 
 // Create an empty array where we'll export future Inngest functions
 export const functions = [syncUser, deleteUserFromDB];
