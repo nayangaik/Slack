@@ -8,12 +8,15 @@ import { clerkMiddleware } from "@clerk/express";
 import { functions, inngest } from "./config/inngest.js";
 import { serve } from "inngest/express";
 import chatRoutes from "./routes/chat.route.js";
-
 import cors from "cors";
-
 import * as Sentry from "@sentry/node";
 
 const app = express();
+
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler());
+// TracingHandler creates a trace for every incoming request
+app.use(Sentry.Handlers.tracingHandler());
 
 app.use(express.json());
 app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
@@ -30,7 +33,8 @@ app.get("/", (req, res) => {
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/chat", chatRoutes);
 
-Sentry.setupExpressErrorHandler(app);
+// The error handler must be registered before any other error middleware and after all controllers
+app.use(Sentry.Handlers.errorHandler());
 
 const startServer = async () => {
   try {

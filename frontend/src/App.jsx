@@ -1,14 +1,21 @@
-import { SignedIn, SignedOut, SignInButton } from '@clerk/clerk-react';
+import { SignedIn, SignedOut, useUser } from '@clerk/clerk-react';
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from './pages/HomePage.jsx';
 import AuthPage from './pages/AuthPage.jsx';
+import { Toaster, toast } from 'react-hot-toast';
+import { useEffect } from 'react';
 
 export default function App() {
+  const { isSignedIn } = useUser();
+
+  useEffect(() => {
+    if (isSignedIn) {
+      toast.success("Signed in successfully!");
+    }
+  }, [isSignedIn]);
+
   return (
     <div className="app">
-      <header>
-        <SignInButton mode="modal"/>
-      </header>
       <main>
         <SignedOut>
           <Routes>
@@ -23,6 +30,7 @@ export default function App() {
           </Routes>
         </SignedIn>
       </main>
+      <Toaster position="top-center" />
     </div>
   );
 }
