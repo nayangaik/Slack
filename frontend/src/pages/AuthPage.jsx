@@ -1,7 +1,17 @@
 import "../styles/auth.css";
 import { SignInButton } from "@clerk/clerk-react";
+import { toast } from "react-hot-toast";
 
 const AuthPage = () => {
+  const handleGetStartedClick = () => {
+    console.log("Button clicked");
+    toast("Sign in to continue!", {
+      icon: 'ℹ️',
+      duration: 3000
+    });
+    console.log("Toast notification triggered");
+  };
+
   return (
     <div className="auth-container">
       <div className="auth-left">
@@ -36,7 +46,7 @@ const AuthPage = () => {
           </div>
 
           <SignInButton mode="modal">
-            <button className="cta-button">
+            <button className="cta-button" onClick={handleGetStartedClick}>
               Get Started with Slap
               <span className="button-arrow">→</span>
             </button>

@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@sentry/profiling-node": "^10.21.0"
+    "@sentry/profiling-node": "^10.21.0",
+    "stream-chat": "^9.25.0"
   }
 }
