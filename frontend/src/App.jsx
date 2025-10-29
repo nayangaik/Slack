@@ -2,6 +2,8 @@ import { SignedIn, SignedOut, useUser } from '@clerk/clerk-react';
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from './pages/HomePage.jsx';
 import AuthPage from './pages/AuthPage.jsx';
+import CallPage from './pages/callPage.jsx';
+import './App.css';
 import { Toaster, toast } from 'react-hot-toast';
 import { useEffect } from 'react';
 
@@ -17,18 +19,22 @@ export default function App() {
   return (
     <div className="app">
       <main>
-        <SignedOut>
+        
           <Routes>
-            <Route path="/auth" element={<AuthPage/>} />
-            <Route path="*" element={<Navigate to={"/auth"} replace={true} />} />
+            <Route path="/auth" element={isSignedIn ? <Navigate to={"/"} replace={true} /> : <AuthPage/>} />
+            <Route path="*" element={isSignedIn ? <Navigate to={"/"} replace={true} /> : <Navigate to={"/auth"} replace={true} />} />
+           
           </Routes>
-        </SignedOut>
-        <SignedIn>
+       
+      
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={isSignedIn ? <HomePage /> : <Navigate to={"/auth"} replace={true}  />}/>
+           
             <Route path="/auth" element={<Navigate to={"/"} replace={true} />}/>
+             <Route path="/call/:id" element={isSignedIn ? <CallPage/> : <Navigate to={"/auth"} replace={true} />}/>
+            <Route path="*" element={<Navigate to={"/"} replace={true} />} />
           </Routes>
-        </SignedIn>
+        
       </main>
       <Toaster position="top-center" />
     </div>
